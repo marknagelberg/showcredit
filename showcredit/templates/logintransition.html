@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+{{ super() }}
+<!-- Transition page that briefly displays when user
+     successfully logs in-->
+<div class = 'container'>
+    <div class = 'row'>
+        <div class = 'col-md-12 text-center'>
+            <h1>Welcome, {{login_session['username']}}!</h1>
+        </div>
+    </div>
+    <div class = 'row'>
+        <div class = 'col-md-12 text-center'>
+            <img src = '{{login_session['picture']}}'>
+        </div>
+    </div>
+</div>
+{% endblock %}

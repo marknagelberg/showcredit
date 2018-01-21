@@ -1,0 +1,91 @@
+<!-- Render the user dashboard navbar with the
+active button highlighted according to the page
+being viewed-->
+{% macro render_navbar(active_button) %}
+<div class="masthead">
+    <h3 class="text-muted">ShowCredit</h3>
+    <nav>
+        <ul class="nav nav-justified">
+            {% if active_button == 'courses' %}
+            <li class="active"><a href="{{ url_for('fullCourseList') }}">Courses</a></li>
+            {% else %}
+            <li><a href="{{ url_for('fullCourseList') }}">Courses</a></li>
+            {% endif %}
+
+            {% if active_button == 'resumes' %}
+            <li class="active"><a href="{{ url_for('fullResumeList') }}">Resumes</a></li>
+            {% else %}
+            <li><a href="{{ url_for('fullResumeList') }}">Resumes</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+  </div>
+{% endmacro %}
+
+
+<!-- Render a course -->
+<!-- time is a python time to ensure
+     course images load. display_buttons is a boolean
+     indicating whether the buttons (e.g. edit, delete)
+     should be displayed -->
+{% macro render_course(course, display_buttons, display_checkbox, time) %}
+<div class = 'row course'>
+    {% if display_checkbox %}
+    <div class="form-group col-md-2">
+        <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="course" value={{course.id}}> Add to resume
+                </label>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class = 'col-md-8'>
+        <h3>{{course.title}}</h3>
+        <dl class='dl-horizontal'>
+            <dt>Provider</dt>
+            <dd>{{course.provider}}</dd>
+            <dt>Website</dt>
+            <dd><a href={{course.website}}>{{course.website}}</a></dd>
+            <dt>Description</dt>
+            <dd>{{course.description}}</dd>
+        </dl>
+    </div>
+
+    {% if course.image != None %}
+    <div class = 'col-md-2 text-center'>
+        <!-- Include a random string as a query to ensure image is reloaded
+            and not cached-->
+            <img src=/{{course.image}}?{{time}} class='img-rounded img-responsive center-block'>
+    </div>
+    <div class = 'col-md-2 text-center'>
+    {% else %}
+    <div class = 'col-md-2 col-md-offset-2 text-center'>
+    {% endif %}
+
+    {% if display_buttons %}
+        <a href = {{url_for('editCourse', course_id = course.id)}}><button type="button" class="btn btn-sm btn-primary">Edit</button></a>
+        <a href = {{url_for('deleteCourse', course_id = course.id)}}><button type="button" class="btn btn-sm btn-primary">Delete</button></a>
+    {% endif %}
+    </div>
+</div>
+{% endmacro %}
+
+<!-- Render a resume bar, with the link to view the full resume-->
+{% macro render_resume(resume) %}
+    <div class = 'row resume-list'>
+        <div class = 'col-md-10 text-center'>
+            <h4>Title: <b>{{ resume.title }}</b></h4>
+            <h4>URL:</h4>
+            <div class = 'resumelink'>
+                <a href={{url_for('showResume', user_id = resume.user_id, code = resume.code)}}>{{url_for('showResume', user_id = resume.user_id, code = resume.code)}}</a>
+            </div>
+        </div>
+
+        <div class = 'col-md-2 text-center'>
+            <a href = {{url_for('deleteResume', code = resume.code)}}><button type="button" class="btn btn-sm btn-primary">Delete</button></a>
+        </div>
+    </div>
+{% endmacro %}

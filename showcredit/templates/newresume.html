@@ -1,0 +1,45 @@
+{% import "macros.html" as macros %}
+{% extends "base.html" %}
+{% block body %}
+{{ super() }}
+<div class = 'container'>
+    <h1>Enter the title you want for your resume:</h1>
+        <form action = {{ url_for('createResume') }} method = 'POST' enctype='multipart/form-data' role = 'form'>
+        {{form.csrf_token}}
+            <div class = 'form-group'>
+                {{form.title.label}} {{form.title()}}
+            </div>
+
+    <h1>Select the courses you want on your resume:</h1>
+
+    {% if not courses.all() %}
+    <div class = 'row course'>
+        <div class = 'col-md-12'>
+            <h2 class='text-center'>You haven't added any courses yet!</h2>
+        </div>
+    </div>
+    {% endif %}
+
+        {% for course in courses %}
+            {{ macros.render_course(course = course, display_buttons = False, display_checkbox = True, time = time) }}
+
+        {% endfor %}
+        <div>
+            <input type = "submit" value = "Submit">
+        </div>
+        {% if form.errors %}
+        <div class = 'alert alert-warning'>
+            <ul class = 'errors'>
+                <h4>The following fields are invalid:</h4>
+                {% for error in form.errors %}
+                    <li>{{ error | title }}</li>
+                {% endfor%}
+            </ul>
+        </div>
+        {% endif %}
+    <div>
+            <a href = {{url_for('fullResumeList')}}><button type = 'button' class="btn btn-sm btn-primary">Cancel</button></a>
+        </div>
+    </form>
+</div>
+{% endblock %}

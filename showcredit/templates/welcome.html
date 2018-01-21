@@ -1,0 +1,17 @@
+{% import "macros.html" as macros %}
+{% extends "base.html" %}
+{% block body %}
+<!-- Landing Page -->
+<!-- Page styling adapted from http://getbootstrap.com/examples/jumbotron-narrow/ -->
+<div class="container">
+    <div class="header clearfix">
+        <h3 class="text-muted">ShowCredit</h3>
+    </div>
+
+    <div class="jumbotron">
+        <h1>Welcome to ShowCredit</h1>
+        <p class="lead">Add your online courses to ShowCredit and create your own resume websites to show employers.</p>
+        <p><a class="btn btn-lg btn-success" href={{ url_for('login') }} role="button">Login</a></p>
+    </div>
+</div>
+{% endblock %}

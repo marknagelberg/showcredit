@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block body %}
+{{ super() }}
+<div class = 'container text-left'>
+    <h2>Add a New Course</h2>
+    <form action = {{ url_for('addCourse') }} method = 'POST' enctype='multipart/form-data' role = 'form'>
+        {{form.csrf_token}}
+        <div class = 'form-group'>
+        {{form.title.label}} {{form.title()}}
+        </div>
+        <div class = 'form-group'>
+        {{form.description.label}} {{form.description()}}
+        </div>
+        <div class = 'form-group'>
+        {{form.provider.label}} {{form.provider()}}
+        </div>
+        <div class = 'form-group'>
+        {{form.website.label}} {{form.website()}}
+        </div>
+        <div class = 'form-group'>
+        {{form.image.label}} {{form.image()}}
+            <p class = 'help-block'>e.g. course logo</p>
+        </div>
+        <div class = 'form-group'>
+        {{form.submit()}}
+        </div>
+
+        {% if form.errors %}
+        <div class = 'alert alert-warning'>
+            <ul class = 'errors'>
+                <h4>The following course fields are invalid:</h4>
+                {% for error in form.errors %}
+                <li>{{ error | title }}</li>
+                {% endfor%}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div>
+            <a href = {{url_for('fullCourseList')}}><button type = 'button' class="btn btn-sm btn-primary">Cancel</button></a>
+        </div>
+    </form>
+</div>
+{% endblock %}

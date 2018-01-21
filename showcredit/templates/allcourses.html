@@ -1,0 +1,28 @@
+{% import "macros.html" as macros %}
+{% extends "base.html" %}
+{% block body %}
+{{ super() }}
+<!-- Displays the user's course dashboard listing all of their courses -->
+<div class = 'container'>
+
+    {{ macros.render_navbar(active_button = 'courses') }}
+
+    {% if not courses.all() %}
+    <div class = 'row course'>
+        <div class = 'col-md-12'>
+            <h2 class='text-center'>You haven't added any courses yet!</h2>
+        </div>
+    </div>
+    {% endif %}
+
+    {% for course in courses %}
+        {{ macros.render_course(course = course, display_buttons = True, display_checkbox = False, time = time) }}
+    {% endfor %}
+
+    <div class = 'row'>
+        <div class = 'col-md-12 text-center'>
+                <a href = {{url_for('addCourse')}}><button type="button" class="btn btn-lg btn-success">Add course</button></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

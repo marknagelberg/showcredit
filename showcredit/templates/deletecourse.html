@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+{{ super() }}
+<div class='container'>
+    <h1> Are you sure you want to delete {{course.title}}?</h1>
+    <form action = {{ url_for('deleteCourse', course_id = course.id) }} method = 'POST' role = 'form'>
+        {{form.csrf_token}}
+        <div class = 'form-group'>
+        {{form.submit()}}
+        </div>
+    </form>
+    <a href = "{{ url_for('fullCourseList')}}"><button type = 'button' class='btn btn-sm btn-primary'>Cancel</button></a>
+</div>
+{% endblock %}

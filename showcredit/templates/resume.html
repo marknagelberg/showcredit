@@ -1,0 +1,25 @@
+{% import "macros.html" as macros %}
+{% extends "base.html" %}
+
+{% block head %}
+<!-- Prevent the resumes from being indexed
+     by search engines. -->
+<meta name="robots" content="none">
+{{ super() }}
+{% endblock %}
+
+{% block body %}
+{{ super() }}
+<div class = 'container'>
+    <div class = 'row course'>
+        <div class = 'col-md-12'>
+            <h2 class='text-center'>{{resume.title}}</h2>
+        </div>
+    </div>
+    {% for course in courses %}
+    <!-- Need to pass course.Course rather than course, since courses is actually a join of
+         the Course and ResumeCourse tables-->
+        {{ macros.render_course(course = course.Course, display_buttons = False, display_checkbox = False, time = time) }}
+    {% endfor %}
+</div>
+{% endblock %}

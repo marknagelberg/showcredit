@@ -1,0 +1,31 @@
+{% import "macros.html" as macros %}
+{% extends "base.html" %}
+{% block body %}
+
+<div class = 'container'>
+
+    {{ macros.render_navbar(active_button = 'resumes') }}
+
+    {% if not resumes.all() %}
+    <div class = 'row resume-list'>
+        <div class = 'col-md-12 text-center'>
+            <h2>You haven't added any resumes yet!</h2>
+        </div>
+    </div>
+    {% endif %}
+
+    {% for resume in resumes %}
+        {{ macros.render_resume(resume) }}
+    {% endfor %}
+
+    <div class = 'row'>
+        <div class = 'col-md-12 text-center'>
+                <a href = {{url_for('createResume')}}><button type="button" class="btn btn-lg btn-success">Create online resume</button></a>
+        </div>
+    </div>
+</div>
+
+<!-- Prepend the resume link with the appropriate domain name -->
+<script>$('.resumelink').contents().prepend(location.hostname)</script>
+
+{% endblock %}
